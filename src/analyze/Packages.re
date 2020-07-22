@@ -99,7 +99,27 @@ let newBsPackage = (~overrideBuildSystem=?, ~reportDiagnostics, state, rootPath)
     | _ => false
     });
   let namespace = FindFiles.getNamespace(~supportsNamespaceRename, config);
-  let localSourceDirs = FindFiles.getSourceDirectories(~includeDev=true, rootPath, config);
+  // let localSourceDirs = FindFiles.getSourceDirectories(~includeDev=true, rootPath, config);
+  let localSourceDirsAll = FindFiles.getSourceDirectories(~includeDev=true, rootPath, config);
+  let localSourceDirs = localSourceDirsAll |> List.filter(dir => {
+    let files = Files.readDirectory(dir);
+    // let res = List.exists(file => Str.string_match(Str.regexp({|\.+\(.re|.rei\)$|}), file, 0), files);
+    let res = List.exists(file => {
+      let lastCommaIndex = switch (String.rindex(file, '.')) {
+        | index => index
+        | exception Not_found => -1
+        };
+      if (lastCommaIndex == -1) {
+        false;
+      } else {
+        let extention = String.sub(file, lastCommaIndex + 1, String.length(file) - lastCommaIndex - 1);
+        extention == "re" || extention == "rei";
+      }
+    }, files);
+
+    Log.log("qzmfiles, " ++ string_of_bool(res) ++ ", " ++ dir ++ ", " ++ String.concat(",", files));
+    res;
+  });
   Log.log("Got source directories " ++ String.concat(" - ", localSourceDirs));
   let localCompiledDirs = localSourceDirs |> List.map(Infix.fileConcat(compiledBase));
   let localCompiledDirs = namespace == None ? localCompiledDirs : [compiledBase, ...localCompiledDirs];
