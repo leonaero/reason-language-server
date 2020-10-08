@@ -53,7 +53,7 @@ let filterDirsWithReasonFiles = (dirList) =>
       switch (String.rindex(file, '.')) {
         | index => 
           let extention = String.sub(file, index + 1, String.length(file) - index - 1);
-          extention == "re" || extention == "rei";
+          extention == "re" || extention == "rei" || extention == "res"  || extention == "resi";
         | exception Not_found => false
         };
     }, files);
