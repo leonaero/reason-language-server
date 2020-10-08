@@ -3,7 +3,7 @@
 	"description": "IDE & Syntax support for Reason/OCaml",
 	"author": "Jared Forsyth",
 	"license": "ISC",
-	"version": "1.7.10",
+	"version": "1.7.13",
 	"publisher": "jaredly",
 	"repository": {
 		"type": "git",
@@ -21,6 +21,7 @@
 		"onLanguage:ocaml",
 		"onLanguage:reason_lisp"
 	],
+	
 	"main": "./src/index",
 	"contributes": {
 		"commands": [
@@ -153,11 +154,6 @@
 				"embeddedLanguages": {
 					"meta.embedded.block.reason": "reason"
 				}
-			},
-			{
-				"language": "bucklescript",
-				"scopeName": "source.bucklescript",
-				"path": "./bucklescript.json"
 			}
 		],
 		"languages": [
@@ -193,17 +189,6 @@
 					".reli"
 				],
 				"configuration": "./reason-lisp.configuration.json"
-			},
-			{
-				"id": "bucklescript",
-				"aliases": [
-					"BuckleScript"
-				],
-				"extensions": [
-					".res",
-					".resi"
-				],
-				"configuration": "./bucklescript.configuration.json"
 			}
 		]
 	},
